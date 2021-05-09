@@ -6,7 +6,7 @@
 /// }
 ///```
 export type PaginationType = {
-    offset?: number;
-    limit?: number;
-    sort?: [by?: string, type?: string | Number];
+	offset?: number;
+	limit?: number;
+	sort?: [by?: string, type?: string | Number];
 }
