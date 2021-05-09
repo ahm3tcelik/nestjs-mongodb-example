@@ -5,11 +5,11 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 @Module({
-	imports: [
-		MongooseModule.forRoot('mongodb://localhost/nest-mongo-1', { useCreateIndex: true }),
-		UsersModule
-	],
-	controllers: [AppController],
-	providers: [AppService],
+  imports: [
+    MongooseModule.forRoot('mongodb://localhost/nest-mongo-1', { useCreateIndex: true }),
+    UsersModule
+  ],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule { }
