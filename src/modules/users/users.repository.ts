@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { FilterQuery, Model, Query } from 'mongoose';
+import { FilterQuery, Model } from 'mongoose';
 import { PaginationType } from 'src/core/utils/types/pagination.type';
 import { User, UserDocument } from './schemas/user.schema';
 
@@ -23,7 +23,7 @@ export class UsersRepository {
         let doc = this.usersModel.find(filterQuery);
         doc = pagination?.offset ? doc.skip(pagination.offset) : doc
         doc = pagination?.limit ? doc.limit(pagination.limit) : doc
-        doc = pagination?.sort ? doc.sort(pagination.sort) : doc;
+        doc = pagination?.sort ? doc.sort([pagination.sort]) : doc;
         return doc.exec();
     }
 
