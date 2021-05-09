@@ -8,5 +8,5 @@
 export type PaginationType = {
     offset?: number;
     limit?: number;
-    sort?: [by?: string, type?: string | Number][];
+    sort?: [by?: string, type?: string | Number];
 }
