@@ -6,7 +6,10 @@ import { AppService } from './app.service';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost/nest-mongo-1', { useCreateIndex: true }),
+    MongooseModule.forRoot('mongodb://localhost/nest-mongo-1', {
+      useCreateIndex: true,
+      useFindAndModify: false
+    }),
     UsersModule
   ],
   controllers: [AppController],
