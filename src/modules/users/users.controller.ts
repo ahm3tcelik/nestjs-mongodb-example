@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Param, Patch, Post, Query } from '@nestjs/common';
-import { SearchPaginationDto } from 'src/core/dto/search-pagination.dto';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import { SearchPaginationDto } from '../../core/dto/search-pagination.dto';
 import { PaginationDto } from '../../core/dto/pagination.dto';
 import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './schemas/user.schema';
 import { UsersService } from './users.service';
 
@@ -32,7 +33,13 @@ export class UsersController {
   }
 
   @Patch(':id')
-  async updateUser(@Param('id') id: string) {
+  async updateUser(
+    @Param('id') id: string, @Body() dto: UpdateUserDto): Promise<User> {
+    return this.usersService.updateOne(id, dto);
+  }
 
+  @Delete(':id')
+  async deleteUser(@Param('id') id: string): Promise<number> {
+    return this.usersService.deleteOne(id);
   }
 }
