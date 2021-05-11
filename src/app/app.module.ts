@@ -3,13 +3,13 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from '../modules/users/users.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { mongoOptions, mongoUri } from '../configs/db.config';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost/nest-mongo-1', {
-      useCreateIndex: true,
-      useFindAndModify: false
-    }),
+    ConfigModule.forRoot({ isGlobal: true }),
+    MongooseModule.forRoot(mongoUri, mongoOptions),
     UsersModule
   ],
   controllers: [AppController],
