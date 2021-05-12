@@ -28,6 +28,10 @@ export abstract class BaseRepository<T extends Document> {
 		return this.entityModel.findOneAndUpdate(filterQuery, entity);
 	}
 
+	async createOrUpdateOne(filterQuery: FilterQuery<T>, entity: UpdateQuery<T>): Promise<T> {
+		return this.entityModel.findOneAndUpdate(filterQuery, entity, { upsert: true });
+	}
+
 	async deleteOne(filterQuery: FilterQuery<T>): Promise<number> {
 		const result = await this.entityModel.deleteOne(filterQuery);
 		return result.ok;
