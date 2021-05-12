@@ -19,14 +19,14 @@ export class JwtTokensService {
 
 		const options: JwtSignOptions = {
 			issuer: process.env.COMPANY,
-			audience: user._id,
+			audience: user.id,
 			subject: user.email,
 			secret: process.env.JWT_ACCESS_SECRET,
 			expiresIn: process.env.JWT_ACCESS_EXPIRE
 		};
 
 		const payload: JwtPayload = {
-			userId: user._id,
+			userId: user.id,
 			userEmail: user.email
 		};
 
@@ -41,14 +41,14 @@ export class JwtTokensService {
 
 		const options: JwtSignOptions = {
 			issuer: process.env.COMPANY,
-			audience: user._id,
+			audience: user.id,
 			subject: user.email,
 			secret: process.env.JWT_REFRESH_SECRET,
 			expiresIn: process.env.JWT_REFRESH_EXPIRE
 		};
 
 		const payload: JwtPayload = {
-			userId: user._id,
+			userId: user.id,
 			userEmail: user.email
 		};
 

@@ -8,9 +8,7 @@ import { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {
-  constructor(
-    private readonly usersService: UsersService
-  ) { }
+  constructor(private readonly usersService: UsersService) { }
 
   @Post()
   async create(@Body() dto: CreateUserDto) {
@@ -29,7 +27,7 @@ export class UsersController {
 
   @Get(':id')
   async getUser(@Param('id') id: string) {
-    return this.usersService.findOne(id);
+    return this.usersService.findById(id);
   }
 
   @Patch(':id')

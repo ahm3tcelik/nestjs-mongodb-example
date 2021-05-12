@@ -5,7 +5,7 @@ import { genSalt, hash } from 'bcrypt';
 
 export type UserDocument = User & Document;
 
-@Schema({ timestamps: true, toJSON: { useProjection: true } })
+@Schema({ timestamps: true, toJSON: { useProjection: true }, versionKey: false })
 export class User {
 
   @Prop({ required: true, trim: true, type: String })

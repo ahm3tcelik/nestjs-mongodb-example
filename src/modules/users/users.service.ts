@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { compare, genSalt, hash } from 'bcrypt';
 import { SearchPaginationDto } from 'src/core/dto/search-pagination.dto';
 import { PaginationDto } from '../../core/dto/pagination.dto';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -37,8 +38,14 @@ export class UsersService {
     });
   }
 
-  async findOne(id: string) {
+  async findById(id: string) {
     const result = await this.usersRepo.findOne({ _id: id });
+    this.throwIfNull(result);
+    return result;
+  }
+
+  async findByMailWithPassword(email: string) {
+    const result = await this.usersRepo.findOneWithHiddenFields({ email: email });
     this.throwIfNull(result);
     return result;
   }
@@ -53,6 +60,10 @@ export class UsersService {
     const result = await this.usersRepo.deleteOne({ _id: id });
     this.throwIfNull(result);
     return result;
+  }
+
+  async validateCredentials(user: User, password: string) {
+    return compare(password, user.password);
   }
 
   private throwIfNull(data: any) {
