@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Query, UseGuards } from '@nestjs/common';
 import { SearchPaginationDto } from '../../core/dto/search-pagination.dto';
 import { PaginationDto } from '../../core/dto/pagination.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
