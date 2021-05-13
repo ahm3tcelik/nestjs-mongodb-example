@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { compare } from 'bcrypt';
 import { UsersService } from '../users/users.service';
 import { LoginDto, LoginResponseDto } from './dto/login.dto';
+import { RefreshTokenDto, RefreshTokenResponseDto } from './dto/refresh-token.dto';
 import { RegisterDto, RegisterResponseDto } from './dto/register.dto';
 import { JwtTokensService } from './jwt/jwt-tokens.service';
 
@@ -51,5 +52,13 @@ export class AuthService {
 				expiresAt
 			}
 		};
+	}
+
+	async logout(dto: RefreshTokenDto): Promise<void> {
+		await this.jwtTokensService.deleteRefreshToken(dto.refreshToken);
+	}
+
+	async refresh(dto: RefreshTokenDto): Promise<RefreshTokenResponseDto> {
+		return this.jwtTokensService.getAccessTokenFromRefreshToken(dto.refreshToken);
 	}
 }

@@ -58,26 +58,31 @@ export class JwtTokensService {
 	}
 
 	async getAccessTokenFromRefreshToken(refreshToken: string): Promise<RefreshTokenResponseDto> {
-		let payload: JwtPayload;
+		let refreshPayload: JwtPayload;
 		try {
-			payload = await this.jwt.verifyAsync(refreshToken, {
+			refreshPayload = await this.jwt.verifyAsync(refreshToken, {
 				secret: process.env.JWT_REFRESH_SECRET
 			});
 		} catch (e) {
 			throw new BadRequestException(e);
 		}
 
-		const refreshDoc = await this.refreshTokensRepo.findOne({ userId: payload.userId });
+		const refreshDoc = await this.refreshTokensRepo.findOne({ userId: refreshPayload.userId });
 		if (!refreshDoc) {
 			throw new BadRequestException('Refresh token is not found.');
 		}
+
+		const payload: JwtPayload = {
+			userId: refreshPayload.userId,
+			userEmail: refreshPayload.userEmail,
+		};
 
 		const options: JwtSignOptions = {
 			issuer: process.env.COMPANY,
 			audience: payload.userId,
 			subject: payload.userEmail,
-			secret: process.env.JWT_SECRET_ACCESS,
-			expiresIn: process.env.ACCESS_EXPIRE
+			secret: process.env.JWT_ACCESS_SECRET,
+			expiresIn: process.env.JWT_ACCESS_EXPIRE,
 		};
 
 		const accessToken = await this.jwt.signAsync(payload, options);
@@ -85,9 +90,10 @@ export class JwtTokensService {
 	}
 
 	async deleteRefreshToken(refreshToken: string): Promise<void> {
-		const { userId }: JwtPayload = await this.jwt.verifyAsync(refreshToken, {
-			secret: process.env.JWT_REFRESH_SECRET
-		});
+		const { userId }: JwtPayload = await this.jwt
+			.verifyAsync(refreshToken, { secret: process.env.JWT_REFRESH_SECRET })
+			.catch((e: Error) => { throw new BadRequestException(e.message) });
+
 		await this.refreshTokensRepo.deleteOne({ userId: userId });
 	}
 
