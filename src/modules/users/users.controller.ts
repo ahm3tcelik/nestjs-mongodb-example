@@ -1,7 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { SearchPaginationDto } from '../../core/dto/search-pagination.dto';
 import { PaginationDto } from '../../core/dto/pagination.dto';
-import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './schemas/user.schema';
 import { UsersService } from './users.service';
@@ -12,10 +11,6 @@ import { JwtGuard } from '../auth/jwt/jwt.guard';
 export class UsersController {
   constructor(private readonly usersService: UsersService) { }
 
-  @Post()
-  async create(@Body() dto: CreateUserDto) {
-    return this.usersService.create(dto)
-  }
 
   @Get()
   async getUsers(@Query() dto: PaginationDto): Promise<User[]> {
@@ -38,8 +33,4 @@ export class UsersController {
     return this.usersService.updateOne(id, dto);
   }
 
-  @Delete(':id')
-  async deleteUser(@Param('id') id: string): Promise<number> {
-    return this.usersService.deleteOne(id);
-  }
 }
